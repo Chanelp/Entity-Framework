@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.Services.AddDbContext<TareasContext>(p => p.UseInMemoryDatabase("TareasDb"));
 
 // Configuraciòn para conectar a bd sql server
-builder.Services.AddSqlServer<TareasContext>("Data Source=AD-ASTRA;initial Catalog=TareasDb;user id=sa;password=micuentabd27;");
+builder.Services.AddSqlServer<TareasContext>(builder.Configuration.GetConnectionString("cntareas"));
 
 var app = builder.Build();
 
@@ -16,7 +16,7 @@ app.MapGet("/", () => "Hello World desde sql server!");
 
 app.MapGet("/dbconexion", async ([FromServices] TareasContext dbContext) => {
     dbContext.Database.EnsureCreated();
-    return Results.Ok("Base de datos sql server: " + dbContext.Database.IsInMemory());
+    return Results.Ok("Base de datos sql server string en appsettings: " + dbContext.Database.IsSqlServer());
 });
 
 app.Run();

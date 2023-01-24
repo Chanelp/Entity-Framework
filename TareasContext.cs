@@ -8,5 +8,17 @@ namespace proyectoef
         public DbSet<Categoria> Categorias {get; set;}
         public DbSet<Tarea> Tareas {get; set;}
         public TareasContext(DbContextOptions<TareasContext> options) : base(options) {}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Categoria>(categoria => 
+            {
+                categoria.ToTable("Categoria");
+                categoria.HasKey("CategoriaId");
+
+                categoria.Property(p => p.Nombre).IsRequired().HasMaxLength(150);
+
+                categoria.Property(p=> p.Descripcion).IsRequired().HasMaxLength(200);
+            });
+        }
     }
 }
