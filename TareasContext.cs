@@ -11,7 +11,7 @@ namespace proyectoef
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Configuración modelo categorias
+            //Configuración modelo categorias con FluentAPI
             modelBuilder.Entity<Categoria>(categoria =>
             {
                 categoria.ToTable("Categoria");
@@ -22,7 +22,7 @@ namespace proyectoef
                 categoria.Property(p => p.Descripcion).IsRequired().HasMaxLength(200);
             });
 
-            //Configuración modelo Tareas
+            //Configuración modelo Tareas con FluentAPI
             modelBuilder.Entity<Tarea>(tarea =>
             {
                 tarea.ToTable("Tarea");
