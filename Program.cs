@@ -28,9 +28,16 @@ app.MapGet("/api/categorias", ([FromServices] TareasContext dbContext) =>
     return Results.Ok(dbContext.Categorias);
 });
 
-// Un pequeño ejemplo de cómo sería una API para filtrar información en base a la prioridad,
-app.MapGet("/api/tasks", async ([FromServices] TareasContext dbContext) => {
+app.MapGet("/api/tasks", async ([FromServices] TareasContext dbContext) =>
+{
     var data = dbContext.Tareas.Include(p => p.Categoria).Where(p => p.PrioridadTarea == Prioridad.Baja);
+    return Results.Ok(data);
+});
+
+// Un pequeño ejemplo de cómo sería una API para filtrar información en base a la prioridad
+app.MapGet("/api/task/priority/{id}", async ([FromServices] TareasContext dbContext, int id) =>
+{
+    var data = dbContext.Tareas.Include(a => a.Categoria).Where(a => (int)a.PrioridadTarea == id);
     return Results.Ok(data);
 });
 
