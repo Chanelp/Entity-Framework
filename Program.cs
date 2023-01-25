@@ -45,7 +45,7 @@ app.MapGet("/api/tarea/prioridad/{id}", async ([FromServices] TareasContext dbCo
 });
 
 // Guardando datos POST
-app.MapPost("api/tareas", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea) => 
+app.MapPost("api/tareas", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea) =>
 {
     tarea.TareaId = Guid.NewGuid();
     tarea.FechaCreacion = DateTime.Now;
@@ -59,11 +59,12 @@ app.MapPost("api/tareas", async ([FromServices] TareasContext dbContext, [FromBo
 });
 
 // Actualizando datos PUT
-app.MapPut("api/tareas/{id}", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea, [FromRoute] Guid id) => 
+app.MapPut("api/tareas/{id}", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea, [FromRoute] Guid id) =>
 {
     var tareaActual = await dbContext.Tareas.FindAsync(id);
 
-    if(tareaActual != null) {
+    if (tareaActual != null)
+    {
         tareaActual.CategoriaId = tarea.CategoriaId;
         tareaActual.Titulo = tarea.Titulo;
         tareaActual.PrioridadTarea = tarea.PrioridadTarea;
@@ -71,10 +72,26 @@ app.MapPut("api/tareas/{id}", async ([FromServices] TareasContext dbContext, [Fr
 
         await dbContext.SaveChangesAsync();
 
-        return Results.Ok();
+        return Results.Ok($"Se actualizó la tarea de nombre: {tareaActual.Titulo}");
     }
 
     return Results.NotFound();
+});
+
+// Eliminando datos con Entity framework
+app.MapDelete("api/tareas/{id}", async ([FromServices] TareasContext dbContext, [FromRoute] Guid id) =>
+{
+    var tareaActualDelete = await dbContext.Tareas.FindAsync(id);
+
+    if(tareaActualDelete == null) 
+    {
+        return Results.NotFound("Tarea no encontrada");
+    }
+
+    dbContext.Remove(tareaActualDelete);
+    await dbContext.SaveChangesAsync();
+
+    return Results.Ok($"Tarea con titulo: {tareaActualDelete.Titulo}, se eliminó exitosamente!");
 });
 
 app.Run();

@@ -1,10 +1,24 @@
-PUT https://localhost:7168/api/tareas/62ce10c8-613f-468e-be02-09b05ce85c37
-content-type: application/json
 
-{
-    "categoriaId": "3a82ce26-8edd-4c72-9b05-05872b781102",
-    "titulo": "Debo visitar a mis abuelas",
-    "descripcion": "Aprovechar para compartir con mis abuelas",
-    "prioridadTarea": 2,
-    "fechaCreacion": "2023-01-25T12:51:33.2123359"
-}
+# POST https://localhost:7168/api/tareas
+# content-type: application/json
+
+# {
+#     "categoriaId": "3a82ce26-8edd-4c72-9b05-05872b781102",
+#     "titulo": "Coordinar picnic",
+#     "descripcion": null,
+#     "prioridadTarea": 1
+# }
+
+
+# PUT https://localhost:7168/api/tareas/62ce10c8-613f-468e-be02-09b05ce85c37
+# content-type: application/json
+
+# {
+#     "categoriaId": "3a82ce26-8edd-4c72-9b05-05872b781102",
+#     "titulo": "Debo visitar a mis abuelas",
+#     "descripcion": "Aprovechar para compartir con mis abuelas",
+#     "prioridadTarea": 2,
+#     "fechaCreacion": "2023-01-25T12:51:33.2123359"
+# }
+
+DELETE https://localhost:7168/api/tareas/2bf073d5-fb9b-4081-b602-803678782d7c
