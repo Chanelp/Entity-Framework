@@ -14,6 +14,7 @@ namespace proyectoef.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             List<Categoria> categoriasInit = new List<Categoria>();
+
             categoriasInit.Add(new Categoria() { 
                 CategoriaId = Guid.Parse("3a82ce26-8edd-4c72-9b05-05872b781198"), 
                 Nombre = "Actividades pendientes", 
@@ -41,6 +42,8 @@ namespace proyectoef.Models
                 categoria.HasData(categoriasInit);
             });
 
+
+            //Configuración modelo Tareas con FluentAPI
             List<Tarea> tareasInit = new List<Tarea>();
 
             tareasInit.Add(new Tarea() { 
@@ -59,7 +62,6 @@ namespace proyectoef.Models
                 FechaCreacion = DateTime.Now
             });
 
-            //Configuración modelo Tareas con FluentAPI
             modelBuilder.Entity<Tarea>(tarea =>
             {
                 tarea.ToTable("Tarea");

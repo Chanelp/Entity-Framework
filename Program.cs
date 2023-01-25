@@ -11,9 +11,27 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Hello World desde sql server!");
 
-app.MapGet("/dbconexion", async ([FromServices] TareasContext dbContext) => {
+// Endpoints
+app.MapGet("/dbconexion", ([FromServices] TareasContext dbContext) =>
+{
     dbContext.Database.EnsureCreated();
     return Results.Ok("Base de datos sql server string en appsettings: " + dbContext.Database.IsSqlServer());
+});
+
+app.MapGet("/api/tareas", ([FromServices] TareasContext dbContext) =>
+{
+    return Results.Ok(dbContext.Tareas.Where(t => t.PrioridadTarea == Prioridad.Baja));
+});
+
+app.MapGet("/api/categorias", ([FromServices] TareasContext dbContext) =>
+{
+    return Results.Ok(dbContext.Categorias);
+});
+
+// Un pequeño ejemplo de cómo sería una API para filtrar información en base a la prioridad,
+app.MapGet("/api/tasks", async ([FromServices] TareasContext dbContext) => {
+    var data = dbContext.Tareas.Include(p => p.Categoria).Where(p => p.PrioridadTarea == Prioridad.Baja);
+    return Results.Ok(data);
 });
 
 app.Run();
