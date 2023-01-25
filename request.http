@@ -1,1 +1,9 @@
-https://localhost:7168/api/task/priority/1
+POST https://localhost:7168/api/tareas
+content-type: application/json
+
+{
+    "categoriaId": "3a82ce26-8edd-4c72-9b05-05872b781102",
+    "titulo": "Coordinar picnic",
+    "descripcion": null,
+    "prioridadTarea": 1
+}
