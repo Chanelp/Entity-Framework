@@ -31,14 +31,14 @@ app.MapGet("/api/categorias", ([FromServices] TareasContext dbContext) =>
 });
 
 // Obteniendo datos por prioridad baja
-app.MapGet("/api/lowPriority", async ([FromServices] TareasContext dbContext) =>
+app.MapGet("/api/bajaPrioridad", async ([FromServices] TareasContext dbContext) =>
 {
     var data = dbContext.Tareas.Include(p => p.Categoria).Where(p => p.PrioridadTarea == Prioridad.Baja);
     return Results.Ok(data);
 });
 
 // Un pequeño ejemplo de cómo sería una API para filtrar información en base a la prioridad
-app.MapGet("/api/task/priority/{id}", async ([FromServices] TareasContext dbContext, int id) =>
+app.MapGet("/api/tarea/prioridad/{id}", async ([FromServices] TareasContext dbContext, int id) =>
 {
     var data = dbContext.Tareas.Include(a => a.Categoria).Where(a => (int)a.PrioridadTarea == id);
     return Results.Ok(data);
@@ -56,6 +56,25 @@ app.MapPost("api/tareas", async ([FromServices] TareasContext dbContext, [FromBo
     await dbContext.SaveChangesAsync();
 
     return Results.Ok();
+});
+
+// Actualizando datos PUT
+app.MapPut("api/tareas/{id}", async ([FromServices] TareasContext dbContext, [FromBody] Tarea tarea, [FromRoute] Guid id) => 
+{
+    var tareaActual = await dbContext.Tareas.FindAsync(id);
+
+    if(tareaActual != null) {
+        tareaActual.CategoriaId = tarea.CategoriaId;
+        tareaActual.Titulo = tarea.Titulo;
+        tareaActual.PrioridadTarea = tarea.PrioridadTarea;
+        tareaActual.Descripcion = tarea.Descripcion;
+
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok();
+    }
+
+    return Results.NotFound();
 });
 
 app.Run();
