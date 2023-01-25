@@ -13,8 +13,8 @@ using proyectoef.Models;
 namespace proyectoef.Migrations
 {
     [DbContext(typeof(TareasContext))]
-    [Migration("20230124211926_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230125002117_ColumnPesoCategoria")]
+    partial class ColumnPesoCategoria
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,9 @@ namespace proyectoef.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("Peso")
+                        .HasColumnType("int");
 
                     b.HasKey("CategoriaId");
 
